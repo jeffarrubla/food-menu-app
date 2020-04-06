@@ -52,6 +52,11 @@ class CreateItem(CreateView):
 	fields = ['item_name','item_desc','item_price','item_image']
 	template_name = 'food/item-form.html'
 
+	def form_valid(self,form):
+		form.instance.user_name = self.request.user
+
+		return super().form_valid(form)
+
 def update_item(request, id):
 	item = Item.objects.get(id=id)
 	form = ItemForm(request.POST or None, instance=item)
