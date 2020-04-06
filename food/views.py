@@ -4,6 +4,7 @@ from .models import Item
 from .forms import ItemForm
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
 # Create your views here.
 # unused because of the class defined bellow
 # the class is a replacement
@@ -35,7 +36,8 @@ class FoodDetail(DetailView):
 	model = Item
 	template_name = 'food/detail.html'
 
-
+# unused because of the class defined bellow
+# the class is a replacement
 def create_item(request):
 	form = ItemForm(request.POST or None)
 
@@ -44,6 +46,11 @@ def create_item(request):
 		return redirect('food:index')
 
 	return render(request,'food/item-form.html', {'form':form})
+
+class CreateItem(CreateView):
+	model = Item
+	fields = ['item_name','item_desc','item_price','item_image']
+	template_name = 'food/item-form.html'
 
 def update_item(request, id):
 	item = Item.objects.get(id=id)
